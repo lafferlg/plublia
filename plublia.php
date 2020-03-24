@@ -137,11 +137,14 @@ jQuery( function() {
 </script>
 	';
 	$count = 0;
+	$resultado = str_replace('<p>', '', preg_replace_callback('/(\d{1,2}\s)*?([A-Za-zÊúíôçóâêãáé]+\s\d+:\d+)(-?\d{1,2})?/', function ($matchis) use ($equival_decode, $biblia_ler) {
+if (isset($matchis[0]) && $ler_bdados_flag == false) {
 	$carrega_biblia = file_get_contents(plugin_dir_url( __FILE__ ) . "biblias/pt_nvi.json");
 	$biblia_ler = json_decode($carrega_biblia, true);
 	$equivalencias = file_get_contents(plugin_dir_url( __FILE__ ) . "equivalencia.json");
 	$equival_decode = json_decode($equivalencias, true);
-	$resultado = str_replace('<p>', '', preg_replace_callback('/(\d{1,2}\s)*?([A-Za-zÊúíôçóâêãáé]+\s\d+:\d+)(-?\d{1,2})?/', function ($matchis) use ($equival_decode, $biblia_ler) {
+	$ler_bdados_flag = true;
+}
 	preg_match_all('/(?!\s)(\d+:\d+)/', $matchis[0], $capvers_nosplit);
 	list($cap_split, $vers_split) = split(':', $capvers_nosplit[0][0]);
 	preg_match_all('/(\d+)-+?(\d+)/', $matchis[0], $vers_de_ate);
